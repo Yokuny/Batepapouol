@@ -4,7 +4,8 @@ main{
     width: min(100%, 375px);
     height: calc(100vh - 80px);
     background-color: #f3f3f3;
-    overflow: scroll;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 main > div{
     padding: calc(30px - 20px) 8px;
