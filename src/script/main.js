@@ -47,7 +47,7 @@ const core = (() => {
     msg.forEach((element) => {
       if (element.to != "Todos") {
         ulField.innerHTML += `
-          <li class="privateMessage">
+          <li class="privateMessage" data-test="message">
               <span class="info">(${element.time})</span>
               <span class="negrito">${element.from}</span>
               <span>reservadamente para</span>
@@ -56,14 +56,14 @@ const core = (() => {
           </li>`;
       } else if (element.type == "status") {
         ulField.innerHTML += `
-          <li class="userStatus">
+          <li class="userStatus" data-test="message">
               <span class="info">(${element.time})</span>
               <span class="negrito">${element.from}</span>
               <span>${element.text}</span>
           </li>`;
       } else if (element.type == "message") {
         ulField.innerHTML += `
-          <li class="userMessage">
+          <li class="userMessage" data-test="message">
               <span class="info">(${element.time})</span>
               <span class="negrito">${element.from}</span>
               <span>${element.text}</span>
@@ -103,10 +103,10 @@ const core = (() => {
     const usersField = document.getElementById("usersOnline");
     user.forEach((user) => {
       usersField.innerHTML += `
-      <span>
+      <span data-test="participant">
         <ion-icon name="person-circle"></ion-icon>
         <span>${user.name}</span>
-        <ion-icon name="checkmark-sharp"></ion-icon>
+        <ion-icon name="checkmark-sharp" data-test="check"></ion-icon>
       </span>
       `;
     });
