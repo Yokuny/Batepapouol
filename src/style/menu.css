@@ -1,0 +1,64 @@
+#asideMenu {
+  display: none;
+  z-index: 3;
+  top: 0;
+  position: fixed;
+  justify-content: flex-end;
+  width: min(100%, 375px);
+  height: 100vh;
+  background-color: #00000099;
+}
+aside {
+  display: flex;
+  flex-direction: column;
+  width: 259px;
+  background-color: #ffffff;
+  position: relative;
+}
+aside > div:first-child,
+aside > div:nth-child(3) {
+  height: 84px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 19px;
+  text-align: center;
+  padding: 0px 10px;
+}
+aside > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+aside > div:last-child {
+  position: absolute;
+  width: 45%;
+  height: 100%;
+  left: calc(259px - 375px);
+  cursor: pointer;
+}
+aside > div > span {
+  width: calc(100% - (17px * 2));
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  height: 36px;
+  cursor: pointer;
+  position: relative;
+}
+aside > div > span > ion-icon {
+  font-size: 23px;
+  margin-right: 8px;
+}
+aside > div > span > ion-icon {
+  font-size: 23px;
+  margin-right: 8px;
+}
+aside > div > span > ion-icon:last-child {
+  position: absolute;
+  color: #28bb25;
+  font-size: 14px;
+  right: 0px;
+}

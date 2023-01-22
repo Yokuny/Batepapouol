@@ -13,12 +13,31 @@
     <link rel="stylesheet" href="./src/style/reset.css" />
     <link rel="stylesheet" href="./src/style/style.css" />
     <link rel="stylesheet" href="./src/style/msgStyle.css" />
+    <link rel="stylesheet" href="./src/style/registerScreen.css" />
+    <link rel="stylesheet" href="./src/style/menu.css" />
   </head>
   <body>
     <header>
-      <img src="./src/img/logo-uol.png" alt="" />
+      <img src="./src/img/logo-uol.png" alt="ogo Chat Oul" />
       <ion-icon onclick="showMenu()" name="people-sharp"></ion-icon>
     </header>
+
+    <div id="registerScreen">
+      <div>
+        <img src="./src/img/logo-uol.png" alt="logo Chat Oul" />
+        <form id="newUserName">
+          <input
+            id="userName"
+            type="text"
+            placeholder="Digite seu nome"
+            minlength="3"
+            maxlength="24"
+            required
+          />
+          <button type="submit">Entrar</button>
+        </form>
+      </div>
+    </div>
 
     <div id="asideMenu">
       <aside>

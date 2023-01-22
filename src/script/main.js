@@ -1,47 +1,49 @@
 const inputMsg = document.getElementById("newMsg");
+const newUser = document.getElementById("newUserName");
 
 const user = (name) => ({ name });
+let userName;
 const msg = (from, text, to = "Todos", type = "message") => ({
   from,
   to,
   text,
   type,
 });
-let userAmount = [];
 // {
 //     from: "nome do usuário",
 //     to: "nome do destinatário (Todos se não for um específico)",
 //     text: "mensagem digitada",
 //     type: "message" // ou "private_message" para o bônus
 // }
-const registerNewUser = () => {
-  // falta tratamento de dados para \/ a na aquisição ou após
-  return user(prompt("digite seu nome:"));
-};
-let userName = registerNewUser();
-userAmount.push(userName);
 
-// new user in server
+// newUser
 const newServerUser = (user) => {
   const newUserToServer = axios.post(
     "https://mock-api.driven.com.br/api/v6/uol/participants",
     user
   );
-  newUserToServer.then((succesReturn) =>
-    console.log(`Registro de novo usuario. Codigo: ${succesReturn.status}`)
-  );
+  newUserToServer.then((succesReturn) => {
+    document.getElementById("registerScreen").style.display = "none";
+    console.log(`Registro de novo usuario. Codigo: ${succesReturn.status}`);
+  });
   newUserToServer.catch((badReturn) =>
     alert(
       `Tivemos problema criando novo usuario. Codigo de erro: ${badReturn.status}`
     )
   );
 };
-newServerUser(userName);
+newUser.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const userNameInput = document.getElementById("userName").value;
+  userName = user(userNameInput);
+  // new user in server
+  newServerUser(userName);
+});
 
 // enviando msg
-inputMsg.addEventListener("submit", (e) => {
-  e.preventDefault();
-  let msgInput = document.getElementById("userMsgInput");
+inputMsg.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const msgInput = document.getElementById("userMsgInput");
   const newMsg = msg(userName.name, msgInput.value);
   const sendConfirmation = axios.get(
     "https://mock-api.driven.com.br/api/v6/uol/messages",
@@ -63,25 +65,28 @@ function render(msg) {
   ulField.innerHTML = "";
   msg.forEach((element) => {
     if (element.to != "Todos") {
-      ulField.innerHTML += `<li class="privateMessage">
-                <span class="info">(${element.time})</span>
-                <span class="negrito">${element.from}</span>
-                <span>reservadamente para</span>
-                <span class="negrito">${element.to}:</span>
-                <span>${element.text}</span>
-            </li>`;
+      ulField.innerHTML += `
+        <li class="privateMessage">
+            <span class="info">(${element.time})</span>
+            <span class="negrito">${element.from}</span>
+            <span>reservadamente para</span>
+            <span class="negrito">${element.to}:</span>
+            <span>${element.text}</span>
+        </li>`;
     } else if (element.type == "status") {
-      ulField.innerHTML += `<li class="userStatus">
-                <span class="info">(${element.time})</span>
-                <span class="negrito">${element.from}</span>
-                <span>${element.text}</span>
-            </li>`;
+      ulField.innerHTML += `
+        <li class="userStatus">
+            <span class="info">(${element.time})</span>
+            <span class="negrito">${element.from}</span>
+            <span>${element.text}</span>
+        </li>`;
     } else if (element.type == "message") {
-      ulField.innerHTML += `<li class="userMessage">
-                <span class="info">(${element.time})</span>
-                <span class="negrito">${element.from}</span>
-                <span>${element.text}</span>
-            </li>`;
+      ulField.innerHTML += `
+        <li class="userMessage">
+            <span class="info">(${element.time})</span>
+            <span class="negrito">${element.from}</span>
+            <span>${element.text}</span>
+        </li>`;
     }
   });
 }
