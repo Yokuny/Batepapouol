@@ -3,7 +3,7 @@ body{
     flex-direction: column;
     align-items: center;
 }
-body > header, body > footer{
+body > header, body > form{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -82,22 +82,30 @@ aside > div > span > ion-icon:last-child{
     right: 0px
 }
 /* footer */
-body > footer {
+body > form{
     bottom: 0px;
     box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.05);
 }
-body > footer > input{
+body > form > input{
     border: transparent;
     height: 30px;
-    font-style: italic;
     font-weight: 400;
     font-size: 18px;
     line-height: 21px;
 }
-body > footer > input:focus, body > footer > input:focus-visible{
+body > form > input:focus, body > form > input:focus-visible{
     outline: transparent;
     border: transparent;
 }
-body > footer > ion-icon{
+body > form > button{
+    border: 0px transparent;
+    outline: 0px transparent;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+body > form > button > ion-icon{
     font-size: 26px;
 }

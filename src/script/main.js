@@ -1,4 +1,13 @@
+const inputMsg = document.getElementById("newMsg");
+
 const user = (name) => ({ name });
+const msg = (from , text, to = "todos", type = "message") => ({ from, to, text, type });
+// {
+//     from: "nome do usuário",
+//     to: "nome do destinatário (Todos se não for um específico)",
+//     text: "mensagem digitada",
+//     type: "message" // ou "private_message" para o bônus
+// }
 const registerNewUser = () => {
     // falta tratamento de dados para \/ a na aquisição ou após
     return user(prompt("digite seu nome:"));
@@ -7,38 +16,31 @@ let userName =  registerNewUser();
 /*  */
 
 // new user in server 
-
 const newServerUser = (user) => {
     const newUserToServer = axios.post('https://mock-api.driven.com.br/api/v6/uol/participants', user);
-    newUserToServer.then((succesReturn) => {
-        console.log(`Registro de novo usuario. Codigo: ${succesReturn.status}`);
-    });
-    newUserToServer.catch((badReturn) => {
-        alert(`Tivemos problema criando novo usuario. Codigo de erro: ${badReturn.status}`);
-    });
+    newUserToServer.then((succesReturn) => console.log(`Registro de novo usuario. Codigo: ${succesReturn.status}`));
+    newUserToServer.catch((badReturn) => alert(`Tivemos problema criando novo usuario. Codigo de erro: ${badReturn.status}`));
 }
 newServerUser(userName);
 
-const newMsg = ()
-
 // enviando msg
-// function msgDelivery(status){
-//     console.log(`> msg ${status.status}`);
-// }
-// function msgFailure(status){
-//     console.log(`> msg ${status.status}`);
-// }
-// const sendConfirm = axios.get(
-//     "https://mock-api.driven.com.br/api/v6/uol/messages",
-//     {
-//         from: "nome do usuário",
-//         to: "nome do destinatário (Todos se não for um específico)",
-//         text: "mensagem digitada",
-//         type: "message" // ou "private_message" para o bônus
-//     }
-// );
-// sendConfirm.then(msgDelivery);
-// sendConfirm.catch(msgFailure);
+inputMsg.addEventListener("submit", (e) => {
+    e.preventDefault();
+    let msgInput = document.getElementById("userMsgInput");
+    const newMsg = msg(userName.name, msgInput.value);
+    const sendConfirmation = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages", newMsg);
+    sendConfirmation.then((status) => {
+        msgInput.value = "";
+        console.log(`> Mensagem enviada. Codigo: ${status.status}`)
+    });
+    sendConfirmation.catch((status) => {
+        // personalizar o input
+        console.log(`> Erro no envio da mensagem. Codigo: ${status.status}`);
+    });
+});
+
+
+
 // // verificando online
 // function userOnline(response){
 //     console.log(`COM usuarios online ${response}`)
