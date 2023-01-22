@@ -1,8 +1,3 @@
-const newUser = document.getElementById("newUserName");
-const inputMsg = document.getElementById("newMsg");
-const showMenu = () => (document.getElementById("asideMenu").style.display = "flex");
-const menuExit = () => (document.getElementById("asideMenu").style.display = "none");
-
 const core = (() => {
   const user = (name) => ({ name });
   const msg = (from, text, to = "Todos", type = "message") => ({ from, to, text, type });
@@ -33,7 +28,6 @@ const core = (() => {
   const newUserMsg = () => {
     const msgInput = document.getElementById("userMsgInput");
     const theMsg = msg(getUserName().name, msgInput.value);
-    console.log(theMsg);
     const newMsg = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", theMsg);
 
     newMsg.then((status) => {
@@ -47,7 +41,7 @@ const core = (() => {
     });
   };
 
-  function render(msg) {
+  function msgRender(msg) {
     const ulField = document.getElementById("msgBody");
     ulField.innerHTML = "";
     msg.forEach((element) => {
@@ -76,13 +70,16 @@ const core = (() => {
           </li>`;
       }
     });
+    const allMsgs = ulField.querySelectorAll(".userStatus");
+    const lastMsg = allMsgs[allMsgs.length - 1];
+    lastMsg.scrollIntoView();
   }
 
   const msgsRequire = () => {
     const serverMsgs = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages");
 
     serverMsgs.then((response) => {
-      render(response.data);
+      msgRender(response.data);
       consoleMsg("Novas msg recebidas. Codigo:", response.status);
     });
     serverMsgs.catch((badReturn) => consoleMsg("Sem novas msg. Codigo:", badReturn.response.status));
@@ -94,25 +91,55 @@ const core = (() => {
     activeUser.then((status) => {
       consoleMsg("Usuario online. Codigo:", status.status);
       msgsRequire();
-      setTimeout(userConnection, 5000);
+      setTimeout(userConnection, 3000);
     });
     activeUser.catch((badReturn) => {
       msgsRequire("Usuario offline. Codigo:", badReturn.response.status);
-      setTimeout(userConnection, 5000);
+      window.location.reload();
     });
   };
 
-  return { newServerUser, newUserMsg, userConnection, msgsRequire };
+  function usersRender(user) {
+    const usersField = document.getElementById("usersOnline");
+    user.forEach((user) => {
+      usersField.innerHTML += `
+      <span>
+        <ion-icon name="person-circle"></ion-icon>
+        <span>${user.name}</span>
+        <ion-icon name="checkmark-sharp"></ion-icon>
+      </span>
+      `;
+    });
+  }
+
+  const usersOnline = () => {
+    const allUsers = axios.get("https://mock-api.driven.com.br/api/v6/uol/participants");
+
+    allUsers.then((status) => {
+      usersRender(status.data);
+      consoleMsg("Total de usuarios. Codigo:", status.status);
+    });
+    allUsers.catch((badReturn) => {
+      msgsRequire("Não foi possivel requisitar os usuarios online. Codigo:", badReturn.response.status);
+    });
+  };
+  return { newServerUser, newUserMsg, userConnection, msgsRequire, usersOnline };
 })();
 
+const newUser = document.getElementById("newUserName");
+const inputMsg = document.getElementById("newMsg");
 newUser.addEventListener("submit", (event) => {
   event.preventDefault();
   core.newServerUser();
   core.userConnection();
 });
-
 inputMsg.addEventListener("submit", (event) => {
   event.preventDefault();
   core.newUserMsg();
   core.userConnection();
 });
+const showMenu = () => {
+  document.getElementById("asideMenu").style.display = "flex";
+  core.usersOnline();
+};
+const menuExit = () => (document.getElementById("asideMenu").style.display = "none");

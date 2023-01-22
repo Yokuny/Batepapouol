@@ -31,6 +31,8 @@ aside > div {
   flex-direction: column;
   align-items: center;
   gap: 2px;
+  overflow-x: scroll;
+  margin-bottom: 10px;
 }
 aside > div:last-child {
   position: absolute;
@@ -40,6 +42,7 @@ aside > div:last-child {
   cursor: pointer;
 }
 aside > div > span {
+  padding: 0px 5px;
   width: calc(100% - (17px * 2));
   display: flex;
   justify-content: start;
@@ -47,6 +50,11 @@ aside > div > span {
   height: 36px;
   cursor: pointer;
   position: relative;
+  transition: background 0.4s;
+  border-radius: 4px;
+}
+aside > div > span:hover {
+  background-color: rgba(0, 0, 0, 0.1);
 }
 aside > div > span > ion-icon {
   font-size: 23px;
@@ -61,4 +69,5 @@ aside > div > span > ion-icon:last-child {
   color: #28bb25;
   font-size: 14px;
   right: 0px;
+  display: none;
 }
