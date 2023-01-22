@@ -1,4 +1,4 @@
-main{
+ul{
     padding-top: calc(22px + 80px);
     box-sizing: border-box;
     width: min(100%, 375px);
@@ -7,13 +7,13 @@ main{
     overflow-y: auto;
     overflow-x: hidden;
 }
-main > div{
+ul > li{
     padding: calc(30px - 20px) 8px;
     border-radius: 2px;
     display: inline-flex-box;
     margin: 4px 0px;
 }
-main > div span{
+ul > li span{
     line-height: 20px;
     margin-right: 5px;
 }
