@@ -43,16 +43,13 @@ inputMsg.addEventListener("submit", (e) => {
   e.preventDefault();
   let msgInput = document.getElementById("userMsgInput");
   const newMsg = msg(userName.name, msgInput.value);
-  console.log(newMsg);
   const sendConfirmation = axios.get(
     "https://mock-api.driven.com.br/api/v6/uol/messages",
     newMsg
   );
   sendConfirmation.then((status) => {
     msgInput.value = "";
-    console.log(
-      `> Mensagem enviada. Codigo: ${status.status}, ${newMsg.status}`
-    );
+    console.log(`> Mensagem enviada. Codigo: ${status.status}, ${newMsg.text}`);
   });
   sendConfirmation.catch((status) => {
     // personalizar o input
@@ -102,6 +99,7 @@ const newMsgCheck = () => {
     console.log(`Sem novas msg. Codigo: ${response.status}`)
   );
 };
+
 // verificando online
 const userOnline = () => {
   const activeUser = axios.post(
@@ -120,7 +118,10 @@ const userOnline = () => {
 };
 userOnline();
 
-// Nos objetos, campo type identifica o tipo da mensagem. Existem os valores:
-// `status`: mensagem de estado, 'quem entrou ou saiu da sala;
-// `message`: mensagem pública;
-// `private_message`: mensagem particular.
+// menus
+function showMenu() {
+  document.getElementById("asideMenu").style.display = "flex";
+}
+function menuExit() {
+  document.getElementById("asideMenu").style.display = "none";
+}

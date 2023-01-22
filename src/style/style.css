@@ -1,111 +1,123 @@
-body{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-body > header, body > form{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 80px;
-    box-sizing: border-box;
-    padding: 16px 22px;
-    width: min(100%, 375px);
-    position: fixed;
-    z-index: 2;
-    background-color: white;
+body > header,
+body > form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+  box-sizing: border-box;
+  padding: 16px 22px;
+  width: min(100%, 375px);
+  position: fixed;
+  z-index: 2;
+  background-color: white;
 }
-body > header{
-    top: 0px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05);
+body > header {
+  top: 0px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05);
 }
-body > header > img{
-    width: 75px;
+body > header > img {
+  width: 75px;
 }
-body > header > ion-icon{
-    font-size: 42px;
+body > header > ion-icon {
+  cursor: pointer;
+  font-size: 42px;
 }
 /*  */
-.asideMenu{
-    display: none;
-    z-index: 3;
-    top: 0;
-    position: fixed;
-    justify-content: flex-end;
-    width: min(100%, 375px);
-    height: 100vh;
-    background-color: #00000099;
+#asideMenu {
+  display: none;
+  z-index: 3;
+  top: 0;
+  position: fixed;
+  justify-content: flex-end;
+  width: min(100%, 375px);
+  height: 100vh;
+  background-color: #00000099;
 }
-aside{
-    display: flex;
-    flex-direction: column;
-    width: 259px;
-    background-color: #ffffff;
+aside {
+  display: flex;
+  flex-direction: column;
+  width: 259px;
+  background-color: #ffffff;
+  position: relative;
 }
-aside > div:first-child, aside > div:nth-child(3){
-    height: 84px;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 19px;
-    text-align: center;
-    padding: 0px 10px;
+aside > div:first-child,
+aside > div:nth-child(3) {
+  height: 84px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 19px;
+  text-align: center;
+  padding: 0px 10px;
 }
-aside > div{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
+aside > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
 }
-aside > div > span{
-    width: calc(100% - (17px * 2));
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    height: 36px;
-    cursor: pointer;
-    position: relative;
+aside > div:last-child {
+  position: absolute;
+  width: 45%;
+  height: 100%;
+  left: calc(259px - 375px);
+  cursor: pointer;
 }
-aside > div > span > ion-icon{
-    font-size: 23px;
-    margin-right: 8px;
+aside > div > span {
+  width: calc(100% - (17px * 2));
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  height: 36px;
+  cursor: pointer;
+  position: relative;
 }
-aside > div > span > ion-icon{
-    font-size: 23px;
-    margin-right: 8px;
+aside > div > span > ion-icon {
+  font-size: 23px;
+  margin-right: 8px;
 }
-aside > div > span > ion-icon:last-child{
-    position: absolute;
-    color: #28BB25;
-    font-size: 14px;
-    right: 0px
+aside > div > span > ion-icon {
+  font-size: 23px;
+  margin-right: 8px;
+}
+aside > div > span > ion-icon:last-child {
+  position: absolute;
+  color: #28bb25;
+  font-size: 14px;
+  right: 0px;
 }
 /* footer */
-body > form{
-    bottom: 0px;
-    box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.05);
+body > form {
+  bottom: 0px;
+  box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.05);
 }
-body > form > input{
-    border: transparent;
-    height: 30px;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 21px;
+body > form > input {
+  border: transparent;
+  height: 30px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 21px;
 }
-body > form > input:focus, body > form > input:focus-visible{
-    outline: transparent;
-    border: transparent;
+body > form > input:focus,
+body > form > input:focus-visible {
+  outline: transparent;
+  border: transparent;
 }
-body > form > button{
-    border: 0px transparent;
-    outline: 0px transparent;
-    background-color: transparent;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
+body > form > button {
+  border: 0px transparent;
+  outline: 0px transparent;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
-body > form > button > ion-icon{
-    font-size: 26px;
+body > form > button > ion-icon {
+  font-size: 26px;
 }
