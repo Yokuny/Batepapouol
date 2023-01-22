@@ -28,7 +28,7 @@ const newServerUser = (user) => {
   });
   newUserToServer.catch((badReturn) =>
     alert(
-      `Tivemos problema criando novo usuario. Codigo de erro: ${badReturn.status}`
+      `Tivemos problema criando novo usuario. Codigo de erro: ${badReturn.response.status}`
     )
   );
 };
@@ -45,7 +45,7 @@ inputMsg.addEventListener("submit", (event) => {
   event.preventDefault();
   const msgInput = document.getElementById("userMsgInput");
   const newMsg = msg(userName.name, msgInput.value);
-  const sendConfirmation = axios.get(
+  const sendConfirmation = axios.post(
     "https://mock-api.driven.com.br/api/v6/uol/messages",
     newMsg
   );
@@ -53,9 +53,11 @@ inputMsg.addEventListener("submit", (event) => {
     msgInput.value = "";
     console.log(`> Mensagem enviada. Codigo: ${status.status}, ${newMsg.text}`);
   });
-  sendConfirmation.catch((status) => {
+  sendConfirmation.catch((badReturn) => {
     // personalizar o input
-    console.log(`> Erro no envio da mensagem. Codigo: ${status.status}`);
+    console.log(
+      `> Erro no envio da mensagem. Codigo: ${badReturn.response.status}`
+    );
   });
 });
 
@@ -100,8 +102,8 @@ const newMsgCheck = () => {
     render(response.data);
     console.log(`Novas msg recebidas. Codigo: ${response.status}`);
   });
-  serverMsgs.catch((response) =>
-    console.log(`Sem novas msg. Codigo: ${response.status}`)
+  serverMsgs.catch((badReturn) =>
+    console.log(`Sem novas msg. Codigo: ${badReturn.response.status}`)
   );
 };
 
@@ -116,8 +118,8 @@ const userOnline = () => {
     newMsgCheck();
     setTimeout(userOnline, 5000);
   });
-  activeUser.catch((status) => {
-    console.log(`Sem usuarios online. Codigo: ${status.status}`);
+  activeUser.catch((badReturn) => {
+    console.log(`Sem usuarios online. Codigo: ${badReturn.response.status}`);
     setTimeout(userOnline, 5000);
   });
 };
