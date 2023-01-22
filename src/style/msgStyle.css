@@ -1,35 +1,35 @@
-ul{
-    padding-top: calc(22px + 80px);
-    box-sizing: border-box;
-    width: min(100%, 375px);
-    height: calc(100vh - 80px);
-    background-color: #f3f3f3;
-    overflow-y: auto;
-    overflow-x: hidden;
+ul {
+  padding-top: calc(22px + 80px);
+  box-sizing: border-box;
+  width: min(100%, 375px);
+  height: calc(100vh - 80px);
+  background-color: #f3f3f3;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
-ul > li{
-    padding: calc(30px - 20px) 8px;
-    border-radius: 2px;
-    display: inline-flex-box;
-    margin: 4px 0px;
+ul > li {
+  padding: calc(30px - 20px) 8px;
+  border-radius: 2px;
+  display: inline-flex-box;
+  margin: 4px 0px;
 }
-ul > li span{
-    line-height: 20px;
-    margin-right: 5px;
+ul > li span {
+  line-height: 20px;
+  margin-right: 5px;
 }
-.info{
-    color: #AAAAAA;
+.info {
+  color: #aaaaaa;
 }
-.negrito{
-    font-weight: 700;
+.negrito {
+  font-weight: 700;
 }
 /*  */
-.userStatus{
-    background-color: #DCDCDC;
+.userStatus {
+  background-color: #dcdcdc;
 }
-.userMessage{
-    background-color: #ffffff;
+.userMessage {
+  background-color: #ffffff;
 }
-.privateMessage{
-    background: #FFDEDE;
+.privateMessage {
+  background: #ffdede;
 }

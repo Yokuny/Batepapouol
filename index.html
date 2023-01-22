@@ -5,11 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chat OUL</title>
-    <link
-      rel="shortcut icon"
-      href="./src/img/favicon.ico"
-      type="image/x-icon"
-    />
+    <link rel="shortcut icon" href="./src/img/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="./src/style/reset.css" />
     <link rel="stylesheet" href="./src/style/style.css" />
     <link rel="stylesheet" href="./src/style/msgStyle.css" />
@@ -21,7 +17,7 @@
       <img src="./src/img/logo-uol.png" alt="ogo Chat Oul" />
       <ion-icon onclick="showMenu()" name="people-sharp"></ion-icon>
     </header>
-
+    <!---->
     <div id="registerScreen">
       <div>
         <img src="./src/img/logo-uol.png" alt="logo Chat Oul" />
@@ -38,7 +34,7 @@
         </form>
       </div>
     </div>
-
+    <!---->
     <div id="asideMenu">
       <aside>
         <div>
@@ -50,21 +46,13 @@
             <span>Todos</span>
             <ion-icon name="checkmark-sharp"></ion-icon>
           </span>
-          <span>
-            <ion-icon name="person-circle"></ion-icon>
-            <span>pessoa com nome</span>
-            <ion-icon name="checkmark-sharp"></ion-icon>
-          </span>
-          <span>
-            <ion-icon name="person-circle"></ion-icon>
-            <span>pessoa sem nome</span>
-            <ion-icon name="checkmark-sharp"></ion-icon>
-          </span>
+          <!-- EXCLUIR AQUI -->
           <span>
             <ion-icon name="person-circle"></ion-icon>
             <span>person name</span>
             <ion-icon name="checkmark-sharp"></ion-icon>
           </span>
+          <!-- EXCLUIR AQUI -->
         </div>
         <div>
           <div class="negrito">Escolha a visibilidade:</div>
@@ -81,13 +69,12 @@
             <ion-icon name="checkmark-sharp"></ion-icon>
           </span>
         </div>
-
         <div id="closeMenu" onclick="menuExit()"></div>
       </aside>
     </div>
-
+    <!---->
     <ul id="msgBody"></ul>
-
+    <!---->
     <form id="newMsg">
       <input
         id="userMsgInput"
@@ -101,15 +88,10 @@
         <ion-icon name="paper-plane-outline"></ion-icon>
       </button>
     </form>
+    <!---->
   </body>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script
-    type="module"
-    src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
-  ></script>
-  <script
-    nomodule
-    src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
-  ></script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
   <script src="./src/script/main.js"></script>
 </html>
