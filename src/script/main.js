@@ -2,6 +2,7 @@ const inputMsg = document.getElementById("newMsg");
 
 const user = (name) => ({ name });
 const msg = (from , text, to = "todos", type = "message") => ({ from, to, text, type });
+let userAmount;
 // {
 //     from: "nome do usuário",
 //     to: "nome do destinatário (Todos se não for um específico)",
@@ -13,7 +14,8 @@ const registerNewUser = () => {
     return user(prompt("digite seu nome:"));
 };
 let userName =  registerNewUser();
-/*  */
+userAmount.push(userName);
+
 
 // new user in server 
 const newServerUser = (user) => {
@@ -40,22 +42,20 @@ inputMsg.addEventListener("submit", (e) => {
 });
 
 
+// verificando online
+const onlineUsers = () => {
+    const activeUser = axios.post('https://mock-api.driven.com.br/api/v6/uol/status', userAmount);
+    activeUser.then((status) => {
+        console.log(`Ainda há usuarios online. Codigo: ${status}`);
+        setTimeout(hasUsers, 5000);
+    });
+    activeUser.catch((status) => {
+        console.log(`Sem usuarios online. Codigo: ${status}`)
+        setTimeout(hasUsers, 5000);
+    });
+}
+onlineUsers();
 
-// // verificando online
-// function userOnline(response){
-//     console.log(`COM usuarios online ${response}`)
-//     setTimeout(hasUsers, 5000);
-// }
-// function noOnline(response){
-//     console.log(`SEM usuarios online ${response}`)
-//     setTimeout(hasUsers, 5000);
-// }
-// function hasUsers(){
-//     const activeUser = axios.post('https://mock-api.driven.com.br/api/v6/uol/status', userName);
-//     activeUser.then(userOnline);
-//     activeUser.catch(noOnline);
-// }
-// hasUsers();
 // // puxar msg
 // function getMsg(response){
 //     console.log(`COM msg no server ${response}`);
