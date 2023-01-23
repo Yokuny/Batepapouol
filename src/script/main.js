@@ -1,6 +1,7 @@
 const core = (() => {
   let msgCheckTimmer = null;
   let connectionCheckTimmer = null;
+  let usersOnlineCheckTimmer = null;
   const user = (name) => ({ name });
   const msg = (from, text, to = "Todos", type = "message") => ({ from, to, text, type });
   const onlineNames = (name, to) => ({ name, to });
@@ -22,6 +23,29 @@ const core = (() => {
     return { msgTo, msgVisibilite, usersOnline, userOnline };
   };
   let users = userMenu();
+
+  function resetRequestMessages() {
+    if (msgCheckTimmer) {
+      clearTimeout(msgCheckTimmer);
+      msgCheckTimmer = null;
+    }
+    msgCheckTimmer = setTimeout(requestMessages, 3000);
+  }
+  function resetRequestConnection() {
+    if (connectionCheckTimmer) {
+      clearTimeout(connectionCheckTimmer);
+      connectionCheckTimmer = null;
+    }
+    connectionCheckTimmer = setTimeout(userConnection, 5000);
+  }
+  function resetRequestUsersOnline() {
+    if (usersOnlineCheckTimmer) {
+      clearTimeout(usersOnlineCheckTimmer);
+      usersOnlineCheckTimmer = null;
+    }
+    usersOnlineCheckTimmer = setTimeout(usersOnline, 10000);
+  }
+
   function msgVisibilite(value) {
     const msgVisibilite = document.getElementById("msgTo");
     msgVisibilite.innerHTML = "";
@@ -89,12 +113,14 @@ const core = (() => {
       }
     });
   }
+
   const usersOnline = () => {
     const allUsers = axios.get("https://mock-api.driven.com.br/api/v6/uol/participants");
     allUsers.then((status) => {
       users.userOnline(status.data);
       usersRender(users.usersOnline);
       msgVisibilite(users.msgVisibilite);
+      resetRequestUsersOnline();
       consoleMsg("Total de usuarios. Codigo:", status.status);
     });
     allUsers.catch((badReturn) => {
@@ -110,21 +136,6 @@ const core = (() => {
     console.log(text + " " + status);
   }
 
-  function resetRequestMessages() {
-    if (msgCheckTimmer) {
-      clearTimeout(msgCheckTimmer);
-      msgCheckTimmer = null;
-    }
-    msgCheckTimmer = setTimeout(requestMessages, 3000);
-  }
-  function resetRequestConnection() {
-    if (connectionCheckTimmer) {
-      clearTimeout(connectionCheckTimmer);
-      connectionCheckTimmer = null;
-    }
-    connectionCheckTimmer = setTimeout(userConnection, 5000);
-  }
-
   const login = () => {
     const newUser = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants", getUserName());
 
@@ -132,6 +143,7 @@ const core = (() => {
       document.getElementById("registerScreen").style.display = "none";
       userConnection();
       requestMessages();
+      usersOnline();
       consoleMsg("Registro de novo usuario. Codigo:", succesReturn.status);
     });
     newUser.catch((badReturn) => {
