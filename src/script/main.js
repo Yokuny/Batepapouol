@@ -1,5 +1,6 @@
 const core = (() => {
   let msgCheckTimmer = null;
+  let connectionCheckTimmer = null;
   const user = (name) => ({ name });
   const msg = (from, text, to = "Todos", type = "message") => ({ from, to, text, type });
   const onlineNames = (name, to) => ({ name, to });
@@ -116,6 +117,13 @@ const core = (() => {
     }
     msgCheckTimmer = setTimeout(requestMessages, 3000);
   }
+  function resetRequestConnection() {
+    if (connectionCheckTimmer) {
+      clearTimeout(connectionCheckTimmer);
+      connectionCheckTimmer = null;
+    }
+    connectionCheckTimmer = setTimeout(userConnection, 5000);
+  }
 
   const login = () => {
     const newUser = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants", getUserName());
@@ -140,10 +148,11 @@ const core = (() => {
   const newUserMsg = () => {
     const msgInput = document.getElementById("userMsgInput");
     const theMsg = msg(getUserName().name, msgInput.value);
+    msgInput.value = "";
     const newMsg = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", theMsg);
 
     newMsg.then((status) => {
-      resetRequestMessages();
+      requestMessages();
       consoleMsg("Mensagem enviada. Codigo:", status.status);
     });
     newMsg.catch((badReturn) => {
@@ -203,7 +212,7 @@ const core = (() => {
 
     activeUser.then((status) => {
       consoleMsg("Usuario online. Codigo:", status.status);
-      setTimeout(userConnection, 5000);
+      resetRequestConnection();
     });
     activeUser.catch((badReturn) => {
       consoleMsg("Usuario offline. Codigo:", badReturn.response.status);
@@ -215,16 +224,25 @@ const core = (() => {
 })();
 
 const newUser = document.getElementById("newUserName");
-const inputMsg = document.getElementById("newMsg");
+const formInput = document.getElementById("newMsg");
+const inputTextMsg = document.getElementById("userMsgInput");
 newUser.addEventListener("submit", (event) => {
   event.preventDefault();
   core.login();
 });
-inputMsg.addEventListener("submit", (event) => {
+formInput.addEventListener("submit", (event) => {
   event.preventDefault();
   core.newUserMsg();
   core.userConnection();
 });
+inputTextMsg.addEventListener("keyup", (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    core.newUserMsg();
+    core.userConnection();
+  }
+});
+
 const showMenu = () => {
   document.getElementById("asideMenu").style.display = "flex";
   core.usersOnline();
