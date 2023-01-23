@@ -1,26 +1,38 @@
 const core = (() => {
   const user = (name) => ({ name });
   const msg = (from, text, to = "Todos", type = "message") => ({ from, to, text, type });
+  let msgCheckTimmer = null;
 
   function getUserName() {
     const inputUserName = document.getElementById("userName").value;
     return user(inputUserName);
   }
-
   function consoleMsg(text, status) {
     console.log(text + " " + status);
   }
-
-  const newServerUser = () => {
+  function resetRequestMessages() {
+    if (msgCheckTimmer) {
+      clearTimeout(msgCheckTimmer);
+      msgCheckTimmer = null;
+    }
+    msgCheckTimmer = setTimeout(requestMessages, 3000);
+  }
+  const login = () => {
     const newUser = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants", getUserName());
 
     newUser.then((succesReturn) => {
       document.getElementById("registerScreen").style.display = "none";
+      userConnection();
+      requestMessages();
       consoleMsg("Registro de novo usuario. Codigo:", succesReturn.status);
     });
     newUser.catch((badReturn) => {
       const input = document.getElementById("userName");
       input.style.border = "solid 2px red";
+      if (badReturn.response.status == 400) {
+        input.value = "";
+        input.placeholder = "Nome já registrado.";
+      }
       consoleMsg("Tivemos problema criando novo usuario. Codigo de erro:", badReturn.response.status);
     });
   };
@@ -31,7 +43,7 @@ const core = (() => {
     const newMsg = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", theMsg);
 
     newMsg.then((status) => {
-      msgInput.value = "";
+      resetRequestMessages();
       consoleMsg("Mensagem enviada. Codigo:", status.status);
     });
     newMsg.catch((badReturn) => {
@@ -75,26 +87,26 @@ const core = (() => {
     lastMsg.scrollIntoView();
   }
 
-  const msgsRequire = () => {
+  function requestMessages() {
     const serverMsgs = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages");
 
     serverMsgs.then((response) => {
       msgRender(response.data);
+      resetRequestMessages();
       consoleMsg("Novas msg recebidas. Codigo:", response.status);
     });
     serverMsgs.catch((badReturn) => consoleMsg("Sem novas msg. Codigo:", badReturn.response.status));
-  };
+  }
 
   const userConnection = () => {
     const activeUser = axios.post("https://mock-api.driven.com.br/api/v6/uol/status", getUserName());
 
     activeUser.then((status) => {
       consoleMsg("Usuario online. Codigo:", status.status);
-      msgsRequire();
-      setTimeout(userConnection, 3000);
+      setTimeout(userConnection, 5000);
     });
     activeUser.catch((badReturn) => {
-      msgsRequire("Usuario offline. Codigo:", badReturn.response.status);
+      consoleMsg("Usuario offline. Codigo:", badReturn.response.status);
       window.location.reload();
     });
   };
@@ -120,18 +132,17 @@ const core = (() => {
       consoleMsg("Total de usuarios. Codigo:", status.status);
     });
     allUsers.catch((badReturn) => {
-      msgsRequire("Não foi possivel requisitar os usuarios online. Codigo:", badReturn.response.status);
+      consoleMsg("Não foi possivel requisitar os usuarios online. Codigo:", badReturn.response.status);
     });
   };
-  return { newServerUser, newUserMsg, userConnection, msgsRequire, usersOnline };
+  return { login, newUserMsg, userConnection, usersOnline };
 })();
 
 const newUser = document.getElementById("newUserName");
 const inputMsg = document.getElementById("newMsg");
 newUser.addEventListener("submit", (event) => {
   event.preventDefault();
-  core.newServerUser();
-  core.userConnection();
+  core.login();
 });
 inputMsg.addEventListener("submit", (event) => {
   event.preventDefault();
