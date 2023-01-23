@@ -71,3 +71,6 @@ aside > div > span > ion-icon:last-child {
   right: 0px;
   display: none;
 }
+.menuIconDisplay {
+  display: initial !important;
+}

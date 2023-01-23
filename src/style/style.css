@@ -32,12 +32,18 @@ body > form {
   bottom: 0px;
   box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.05);
 }
-body > form > input {
+body > form > div > input {
   border: transparent;
   height: 30px;
   font-weight: 400;
   font-size: 18px;
   line-height: 21px;
+}
+body > form > div > p {
+  margin-left: 2px;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 25px;
 }
 body > form > input:focus,
 body > form > input:focus-visible {

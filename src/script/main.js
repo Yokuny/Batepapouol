@@ -1,7 +1,105 @@
 const core = (() => {
+  let msgCheckTimmer = null;
   const user = (name) => ({ name });
   const msg = (from, text, to = "Todos", type = "message") => ({ from, to, text, type });
-  let msgCheckTimmer = null;
+  const onlineNames = (name, to) => ({ name, to });
+  const userMenu = () => {
+    let msgTo = null;
+    let msgVisibilite = 1;
+    let usersOnline = [];
+    function userOnline(playerList) {
+      usersOnline.length = 0;
+      console.log(usersOnline);
+      playerList.forEach((item) => {
+        if (item.name == msgTo) {
+          usersOnline.push(onlineNames(item.name, 1));
+        } else {
+          usersOnline.push(onlineNames(item.name, 0));
+        }
+      });
+    }
+    return { msgTo, msgVisibilite, usersOnline, userOnline };
+  };
+  let users = userMenu();
+  function msgVisibilite(value) {
+    const msgVisibilite = document.getElementById("msgTo");
+    msgVisibilite.innerHTML = "";
+    if (value == 1) {
+      msgVisibilite.innerHTML = `
+      <span data-test="public">
+        <ion-icon name="lock-open"></ion-icon>
+        <span>Público</span>
+        <ion-icon class="menuIconDisplay" name="checkmark-sharp" data-test="check"></ion-icon>
+      </span>
+      <span data-test="public">
+        <ion-icon name="lock-closed"></ion-icon>
+        <span>Reservadamente</span>
+        <ion-icon name="checkmark-sharp" data-test="check"></ion-icon>
+      </span>
+      `;
+    } else {
+      msgVisibilite.innerHTML = `
+      <span data-test="public">
+        <ion-icon name="lock-open"></ion-icon>
+        <span>Público</span>
+        <ion-icon name="checkmark-sharp" data-test="check"></ion-icon>
+      </span>
+      <span data-test="public">
+        <ion-icon name="lock-closed"></ion-icon>
+        <span>Reservadamente</span>
+        <ion-icon class="menuIconDisplay" name="checkmark-sharp" data-test="check"></ion-icon>
+      </span>
+      `;
+    }
+  }
+  function usersRender(user) {
+    const usersField = document.getElementById("usersOnline");
+    usersField.innerHTML = "";
+    if (!users.msgTo) {
+      usersField.innerHTML = `
+      <span id="forAll" data-test="all">
+        <ion-icon name="people-sharp"></ion-icon>
+        <span>Todos</span>
+        <ion-icon class="menuIconDisplay" name="checkmark-sharp" data-test="check"></ion-icon>
+      </span>`;
+    } else {
+      usersField.innerHTML = `
+      <span id="forAll" data-test="all">
+        <ion-icon name="people-sharp"></ion-icon>
+        <span>Todos</span>
+        <ion-icon name="checkmark-sharp" data-test="check"></ion-icon>
+      </span>`;
+    }
+    user.forEach((user) => {
+      if (user.to == 0) {
+        usersField.innerHTML += `
+          <span id="${user.name}" data-test="participant">
+            <ion-icon name="person-circle"></ion-icon>
+            <span>${user.name}</span>
+            <ion-icon name="checkmark-sharp" data-test="check"></ion-icon>
+          </span>`;
+      } else {
+        usersField.innerHTML += `
+          <span id="${user.name}" data-test="participant">
+            <ion-icon name="person-circle"></ion-icon>
+            <span>${user.name}</span>
+            <ion-icon class="menuIconDisplay" name="checkmark-sharp" data-test="check"></ion-icon>
+          </span>`;
+      }
+    });
+  }
+  const usersOnline = () => {
+    const allUsers = axios.get("https://mock-api.driven.com.br/api/v6/uol/participants");
+    allUsers.then((status) => {
+      users.userOnline(status.data);
+      usersRender(users.usersOnline);
+      msgVisibilite(users.msgVisibilite);
+      consoleMsg("Total de usuarios. Codigo:", status.status);
+    });
+    allUsers.catch((badReturn) => {
+      consoleMsg("Não foi possivel requisitar os usuarios online. Codigo:", badReturn.response.status);
+    });
+  };
 
   function getUserName() {
     const inputUserName = document.getElementById("userName").value;
@@ -10,6 +108,7 @@ const core = (() => {
   function consoleMsg(text, status) {
     console.log(text + " " + status);
   }
+
   function resetRequestMessages() {
     if (msgCheckTimmer) {
       clearTimeout(msgCheckTimmer);
@@ -17,6 +116,7 @@ const core = (() => {
     }
     msgCheckTimmer = setTimeout(requestMessages, 3000);
   }
+
   const login = () => {
     const newUser = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants", getUserName());
 
@@ -111,30 +211,6 @@ const core = (() => {
     });
   };
 
-  function usersRender(user) {
-    const usersField = document.getElementById("usersOnline");
-    user.forEach((user) => {
-      usersField.innerHTML += `
-      <span data-test="participant">
-        <ion-icon name="person-circle"></ion-icon>
-        <span>${user.name}</span>
-        <ion-icon name="checkmark-sharp" data-test="check"></ion-icon>
-      </span>
-      `;
-    });
-  }
-
-  const usersOnline = () => {
-    const allUsers = axios.get("https://mock-api.driven.com.br/api/v6/uol/participants");
-
-    allUsers.then((status) => {
-      usersRender(status.data);
-      consoleMsg("Total de usuarios. Codigo:", status.status);
-    });
-    allUsers.catch((badReturn) => {
-      consoleMsg("Não foi possivel requisitar os usuarios online. Codigo:", badReturn.response.status);
-    });
-  };
   return { login, newUserMsg, userConnection, usersOnline };
 })();
 

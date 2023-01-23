@@ -41,28 +41,11 @@
         <div>
           <div class="negrito">Escolha um contato para enviar mensagem:</div>
         </div>
-        <div id="usersOnline">
-          <span data-test="all">
-            <ion-icon name="people-sharp"></ion-icon>
-            <span>Todos</span>
-            <ion-icon name="checkmark-sharp" data-test="check"></ion-icon>
-          </span>
-        </div>
+        <div id="usersOnline"></div>
         <div>
           <div class="negrito">Escolha a visibilidade:</div>
         </div>
-        <div>
-          <span data-test="public">
-            <ion-icon name="lock-open"></ion-icon>
-            <span>Público</span>
-            <ion-icon name="checkmark-sharp" data-test="check"></ion-icon>
-          </span>
-          <span data-test="public">
-            <ion-icon name="lock-closed"></ion-icon>
-            <span>Reservadamente</span>
-            <ion-icon name="checkmark-sharp" data-test="check"></ion-icon>
-          </span>
-        </div>
+        <div id="msgTo"></div>
         <div id="closeMenu" onclick="menuExit()"></div>
       </aside>
     </div>
@@ -70,15 +53,18 @@
     <ul id="msgBody"></ul>
     <!---->
     <form id="newMsg">
-      <input
-        data-test="input-message"
-        id="userMsgInput"
-        type="text"
-        minlength="4"
-        maxlength="150"
-        required
-        placeholder="Escreva aqui..."
-      />
+      <div>
+        <input
+          data-test="input-message"
+          id="userMsgInput"
+          type="text"
+          minlength="4"
+          maxlength="150"
+          required
+          placeholder="Escreva aqui..."
+        />
+        <p id="whisperTo" data-test="recipient"></p>
+      </div>
       <button type="submit" data-test="send-message">
         <ion-icon name="paper-plane-outline"></ion-icon>
       </button>
